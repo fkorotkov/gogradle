@@ -20,11 +20,12 @@ package com.github.blindpirate.gogradle;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import org.gradle.api.Project;
+import org.gradle.util.GradleVersion;
 
 public enum GogradleGlobal {
     INSTANCE;
 
-    public static final String GOGRADLE_VERSION = "0.10.2";
+    public static final String GOGRADLE_VERSION = "0.11.0";
     public static final String GOGRADLE_COMPATIBLE_VERSION = "0.10";
     public static final String DEFAULT_CHARSET = "UTF-8";
     public static final String GOGRADLE_BUILD_DIR_NAME = ".gogradle";
@@ -62,6 +63,10 @@ public enum GogradleGlobal {
     }
 
     public static boolean isAlias() {
+        if (!GradleVersion.current().getVersion().startsWith("4.")) {
+            // Gradle 5.0+ doesn't support overriding built-in tasks
+            return true;
+        }
         return "true".equals(System.getProperty(GOGRADLE_ALIAS));
     }
 

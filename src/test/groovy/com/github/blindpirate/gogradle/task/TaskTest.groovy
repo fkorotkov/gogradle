@@ -39,6 +39,7 @@ import org.gradle.api.internal.GradleInternal
 import org.gradle.api.internal.plugins.ExtensionContainerInternal
 import org.gradle.api.internal.project.ProjectInternal
 import org.gradle.api.internal.project.taskfactory.TaskIdentity
+import org.gradle.api.model.ObjectFactory
 import org.gradle.internal.service.ServiceRegistry
 import org.gradle.util.Path
 import org.junit.Before
@@ -96,6 +97,7 @@ abstract class TaskTest {
         when(GogradleGlobal.INSTANCE.injector.getInstance(BuildManager)).thenReturn(buildManager)
         when(project.getProjectPath()).thenReturn(mock(Path))
         when(project.getIdentityPath()).thenReturn(mock(Path))
+        when(project.getObjects()).thenReturn(mock(ObjectFactory))
     }
 
     void assertTaskDependsOn(Task task, Object dependency) {
