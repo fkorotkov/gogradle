@@ -5,6 +5,7 @@ import com.github.blindpirate.gogradle.support.AccessWeb
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithMockGo
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,8 +28,8 @@ class RecognizeGopkgLockIntegrationTest extends IntegrationTestSupport {
   revision = "606f1ef31447526b908244933d5b716397a6bad8"
   source = "github.com/apache/thrift"
 ''')
-        newBuild('init')
-        newBuild('vendor')
+        newBuild(GolangTaskContainer.INIT_TASK_NAME)
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
 
         assert new File(resource, 'vendor/git.apache.org/thrift.git').exists()
     }

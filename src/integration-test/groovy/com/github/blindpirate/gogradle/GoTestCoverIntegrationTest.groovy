@@ -20,6 +20,7 @@ package com.github.blindpirate.gogradle
 import com.github.blindpirate.gogradle.crossplatform.Os
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.task.go.GoCoverTest
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
@@ -102,7 +103,7 @@ func Test_Pass(t *testing.T){
 ''')
         // then
         try {
-            newBuild('test', 'cover', '--info')
+            newBuild(GolangTaskContainer.TEST_TASK_NAME, GolangTaskContainer.COVERAGE_TASK_NAME, '--info')
         } catch (BuildException e) {
             assert stdout.toString().contains('3 completed, 1 failed, 1 skipped')
         }
@@ -129,7 +130,7 @@ func Test_Pass(t *testing.T){
     }
 
     def normalTest() {
-        newBuild('test', 'cover', '--info')
+        newBuild(GolangTaskContainer.TEST_TASK_NAME, GolangTaskContainer.COVERAGE_TASK_NAME, '--info')
     }
 
     def assertNormalTestNoUpToDateResult() {
@@ -221,7 +222,7 @@ func Test_Pass(t *testing.T){
         new File(resource, 'd/d1_test.go.fail').renameTo(new File(resource, 'd/d1_test.go'))
 
         try {
-            newBuild('test', 'cover', '--info')
+            newBuild(GolangTaskContainer.TEST_TASK_NAME, GolangTaskContainer.COVERAGE_TASK_NAME, '--info')
         } catch (BuildException e) {
             assertOutputContains('There are 4 failed tests')
             assertOutputContains('FAIL: Test_A1_1')

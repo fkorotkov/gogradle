@@ -20,6 +20,7 @@ package com.github.blindpirate.gogradle
 import com.github.blindpirate.gogradle.crossplatform.Os
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.OnlyWhen
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.ProcessUtils
 import org.junit.Before
@@ -84,11 +85,11 @@ test.enabled = false
     }
 
     void firstBuild() {
-        newBuild('clean', 'build', 'lock')
+        newBuild(GolangTaskContainer.CLEAN_TASK_NAME, GolangTaskContainer.BUILD_TASK_NAME, GolangTaskContainer.LOCK_TASK_NAME)
     }
 
     void secondBuild() {
-        newBuild('build')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME)
     }
 }
 

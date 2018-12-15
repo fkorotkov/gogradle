@@ -18,6 +18,7 @@
 package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.junit.Before
 import org.junit.Test
@@ -59,7 +60,7 @@ dependencies {
     @Test
     void 'incremental installation should succeed'() {
         newBuild {
-            it.forTasks('vendor')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
         }
 
         assert new File(resource, 'vendor/localhost/a/a.go').exists()
@@ -90,7 +91,7 @@ dependencies {
 """)
 
         newBuild({
-            it.forTasks('vendor')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
         }, ['--info'])
 
         assert new File(resource, 'vendor/localhost/a/a.go').text == ''

@@ -4,6 +4,7 @@ import com.github.blindpirate.gogradle.support.AccessWeb
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithMockGo
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.junit.Before
 import org.junit.Test
@@ -28,7 +29,7 @@ func Say(s string){
 
     @Test
     void 'depending on thrift should succeed'() {
-        newBuild('dependencies')
+        newBuild(GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         assert stdout.toString().contains('''\
 github.com/my/project
 \\-- git.apache.org/thrift.git''')

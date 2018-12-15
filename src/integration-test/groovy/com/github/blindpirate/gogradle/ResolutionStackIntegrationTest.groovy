@@ -19,6 +19,7 @@ package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.core.dependency.lock.GogradleLockModel
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.DataExchange
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.gradle.tooling.BuildException
@@ -62,7 +63,7 @@ dependencies {
     @Test
     void 'resolution stack should be printed'() {
         try {
-            newBuild('vendor')
+            newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
         } catch (BuildException e) {
             String target = """
 Cannot recognize package: unrecognized
@@ -87,7 +88,7 @@ Resolution stack is:
 
         try {
             newBuild {
-                it.forTasks('vendor')
+                it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
             }
         } catch (BuildException e) {
             assertOutputContains("""\

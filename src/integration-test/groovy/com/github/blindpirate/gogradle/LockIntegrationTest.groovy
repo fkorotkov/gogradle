@@ -19,6 +19,7 @@ package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.core.dependency.lock.GogradleLockModel
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.DataExchange
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.ProcessUtils
@@ -92,7 +93,7 @@ repositories {
         IOUtils.deleteQuitely(new File(getProjectRoot(), 'gogradle.lock'))
 
         // when
-        newBuild('lock')
+        newBuild(GolangTaskContainer.LOCK_TASK_NAME)
 
         // then
         Map a = getLockedDependency('build')[0]
@@ -103,7 +104,7 @@ repositories {
     @Test
     void 'dependency in build.gradle should be used in DEVELOP'() {
         IOUtils.append(new File(resource, 'build.gradle'), 'golang {buildMode=DEV}')
-        newBuild('lock', 'vendor')
+        newBuild(GolangTaskContainer.LOCK_TASK_NAME, GolangTaskContainer.VENDOR_TASK_NAME)
         assert new File(resource, 'vendor/github.com/my/a/a2.go').exists()
         assert new File(resource, 'vendor/github.com/my/b/b1.go').exists()
 
@@ -122,7 +123,7 @@ repositories {
 
     @Test
     void 'locked dependency should be used in REPRODUCIBLE'() {
-        newBuild('lock', 'vendor')
+        newBuild(GolangTaskContainer.LOCK_TASK_NAME, GolangTaskContainer.VENDOR_TASK_NAME)
         assert new File(resource, 'vendor/github.com/my/a/a1.go').exists()
 
         Map a = getLockedDependency('build')[0]
@@ -136,10 +137,10 @@ repositories {
 
     @Test
     void 'persistent cache should be used'() {
-        newBuild('vendor')
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
 
         deleteDependencyTreeCache()
-        newBuild('vendor')
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
         assert new File(resource, 'vendor/github.com/my/a/a1.go').exists()
         assert stdout.toString().contains('Resolving cached')
     }
@@ -153,16 +154,16 @@ repositories {
     void 'command line parameter --refresh-dependencies should succeed'() {
         IOUtils.append(new File(resource, 'build.gradle'), 'golang {buildMode=DEV}\n')
 
-        newBuild('vendor')
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
         assert new File(resource, 'vendor/github.com/my/a/a2.go').exists()
 
         GitServer.addFileToRepository(new File(repositories, 'a2'), 'commit2.go', '')
 
-        newBuild('vendor')
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
         assert stdout.toString().contains('UP-TO-DATE')
 
         IOUtils.append(new File(resource, 'build.gradle'), 'golang { globalCacheFor(0, MINUTE) }')
-        newBuild('--refresh-dependencies', 'vendor')
+        newBuild('--refresh-dependencies', GolangTaskContainer.VENDOR_TASK_NAME)
         assert new File(resource, 'vendor/github.com/my/a/commit2.go').exists()
     }
 

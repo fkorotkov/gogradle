@@ -19,6 +19,7 @@ package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.junit.Before
 import org.junit.Test
@@ -70,7 +71,7 @@ golang {
     @Test
     void 'gofmt should succeed'() {
         newBuild {
-            it.forTasks('fmt')
+            it.forTasks(GolangTaskContainer.GOFMT_TASK_NAME)
         }
 
         assert new File(resource, 'main.go').getText() == '''\
@@ -97,13 +98,13 @@ func sub() {
 
     @Test
     void 'customized gofmt should not affect other files'() {
-        writeBuildAndSettingsDotGradle(buildDotGradle + '''
-fmt {
+        writeBuildAndSettingsDotGradle(buildDotGradle + """
+${GolangTaskContainer.GOFMT_TASK_NAME} {
     gofmt '-w main.go'
 }
-''')
+""")
         newBuild {
-            it.forTasks('fmt')
+            it.forTasks(GolangTaskContainer.GOFMT_TASK_NAME)
         }
 
         assert new File(resource, 'sub/sub.go').getText() == subDotGo

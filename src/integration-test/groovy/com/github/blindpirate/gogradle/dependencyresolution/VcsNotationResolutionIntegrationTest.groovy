@@ -2,6 +2,7 @@ package com.github.blindpirate.gogradle.dependencyresolution
 
 import com.github.blindpirate.gogradle.GogradleRunner
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.junit.After
 import org.junit.Before
@@ -52,14 +53,14 @@ golang {
         gitServer.start(GitServer.DEFAULT_PORT)
 
         // when
-        newBuild('vendor')
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
 
         // then
         assert new File(projectRoot, 'vendor/a/1.go').exists()
 
         // when
         gitServer.addFileToRepository(repoRoot, '2.go')
-        newBuild('vendor', '--rerun-tasks')
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME, '--rerun-tasks')
 
         // then
         assert new File(projectRoot, 'vendor/a/2.go').exists()
@@ -70,7 +71,7 @@ golang {
         GitServer.git('checkout master', repoRoot)
 
         // then
-        newBuild('clean', 'vendor')
+        newBuild(GolangTaskContainer.CLEAN_TASK_NAME, GolangTaskContainer.VENDOR_TASK_NAME)
     }
 
     @Override

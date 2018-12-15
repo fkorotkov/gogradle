@@ -63,7 +63,7 @@ dependencies {
     @Test
     void 'transitive:false should be added to gogradle.lock'() {
         newBuild {
-            it.forTasks('dependencies', 'lock')
+            it.forTasks(GolangTaskContainer.DEPENDENCIES_TASK_NAME, 'lock')
         }
         assert stdout.toString().contains("""\
 a
@@ -73,7 +73,7 @@ a
 
         // at second time, all dependencies should be flattened
         newBuild {
-            it.forTasks('dependencies')
+            it.forTasks(GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         }
         assert stdout.toString().contains("""\
 a

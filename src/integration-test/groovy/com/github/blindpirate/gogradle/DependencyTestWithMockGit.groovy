@@ -18,6 +18,7 @@
 package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Before
@@ -113,7 +114,7 @@ dependencies {
 
     void firstBuild() {
         newBuild { build ->
-            build.forTasks('vendor', 'dependencies')
+            build.forTasks(GolangTaskContainer.VENDOR_TASK_NAME, GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         }
 
         System.out.println(stdout)
@@ -149,7 +150,7 @@ dependencies {
 
     void secondBuildWithUpToDate() {
         newBuild { build ->
-            build.forTasks('vendor')
+            build.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
         }
         assert stdout.toString().contains(':resolveBuildDependencies UP-TO-DATE')
         assert stdout.toString().contains(':resolveTestDependencies UP-TO-DATE')

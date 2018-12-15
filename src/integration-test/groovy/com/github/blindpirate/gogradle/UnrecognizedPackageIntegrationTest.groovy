@@ -18,6 +18,7 @@
 package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Before
@@ -101,7 +102,7 @@ dependencies {
 
 """)
         newBuild {
-            it.forTasks('vendor')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
         }
         assert new File(resource, 'project/vendor/unrecognized2/helloworld.go').exists()
     }
@@ -125,7 +126,7 @@ dependencies {
 
 """)
         newBuild {
-            it.forTasks('vendor')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
         }
         assert new File(resource, 'project/vendor/unrecognized2/helloworld.go').exists()
     }
@@ -138,7 +139,7 @@ golang {
     packagePath='my/project'
 }
 
-dependencies {
+${GolangTaskContainer.DEPENDENCIES_TASK_NAME} {
     golang {
         build (name:'unrecognized1', dir: '${getResourceDir("unrecognized1")}'){
             exclude name:'unrecognized3'
@@ -151,7 +152,7 @@ dependencies {
 
 """)
         newBuild {
-            it.forTasks('resolveBuildDependencies')
+            it.forTasks(GolangTaskContainer.RESOLVE_BUILD_DEPENDENCIES_TASK_NAME)
         }
     }
 
@@ -170,7 +171,7 @@ repositories {
     }
 }
 
-dependencies {
+${GolangTaskContainer.DEPENDENCIES_TASK_NAME} {
     golang {
         build (name:'unrecognized1', dir: '${getResourceDir("unrecognized1")}'){
             exclude name:'unrecognized3'
@@ -180,7 +181,7 @@ dependencies {
 
 """)
         newBuild {
-            it.forTasks('resolveBuildDependencies')
+            it.forTasks(GolangTaskContainer.RESOLVE_BUILD_DEPENDENCIES_TASK_NAME)
         }
     }
 

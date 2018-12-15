@@ -19,6 +19,7 @@ package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.core.cache.GlobalCacheMetadata
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.DataExchange
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
@@ -156,7 +157,7 @@ golang {
 """
             writeBuildAndSettingsDotGradle(buildDotGradle)
             newBuild {
-                it.forTasks('vendor')
+                it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
             }
         }
     }

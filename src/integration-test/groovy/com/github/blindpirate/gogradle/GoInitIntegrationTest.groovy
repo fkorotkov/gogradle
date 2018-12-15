@@ -20,6 +20,7 @@ package com.github.blindpirate.gogradle
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithMockGo
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.junit.Before
 import org.junit.Test
@@ -60,7 +61,7 @@ testImports:
   - redis
 ''')
         newBuild {
-            it.forTasks('init')
+            it.forTasks(GolangTaskContainer.INIT_TASK_NAME)
         }
 
         assert new File(resource, 'build.gradle').text.contains('''\
@@ -72,7 +73,7 @@ dependencies {
     }
 }''')
         newBuild {
-            it.forTasks('init')
+            it.forTasks(GolangTaskContainer.INIT_TASK_NAME)
         }
 
         assert stdout.toString().contains('This project seems to have been initialized already, skip')
@@ -89,7 +90,7 @@ package main
 import "github.com/c/d"
 ''')
         newBuild {
-            it.forTasks('init')
+            it.forTasks(GolangTaskContainer.INIT_TASK_NAME)
         }
 
         assert new File(resource, 'build.gradle').text.contains('''\

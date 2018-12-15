@@ -21,6 +21,7 @@ import com.github.blindpirate.gogradle.crossplatform.Arch
 import com.github.blindpirate.gogradle.crossplatform.Os
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import org.junit.Before
 import org.junit.Test
@@ -95,7 +96,7 @@ func main(){
 
     @Test
     void 'root project is java and sub is go'() {
-        newBuild('build', '--parallel')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--parallel')
 
         assert new File(resource, "go1/.gogradle/go1-${Os.getHostOs()}-${Arch.getHostArch()}").exists()
         assert new File(resource, "go2/.gogradle/go2-${Os.getHostOs()}-${Arch.getHostArch()}").exists()

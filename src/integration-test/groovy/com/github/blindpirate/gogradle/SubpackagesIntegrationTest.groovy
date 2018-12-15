@@ -133,7 +133,7 @@ dependencies {
 }
 ''')
         newBuild {
-            it.forTasks('vendor', 'dependencies')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME, GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         }
 
         assertOnlySub1Exists()
@@ -152,7 +152,7 @@ dependencies {
 }
 ''')
         newBuild {
-            it.forTasks('vendor', 'dependencies')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME, GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         }
 
         assertOnlySub1Exists()
@@ -178,7 +178,7 @@ dependencies {
         assert buildDeps.find { it.name == 'localhost/vcs' }.subpackages == ['sub1']
 
         newBuild {
-            it.forTasks('dependencies', 'vendor')
+            it.forTasks(GolangTaskContainer.DEPENDENCIES_TASK_NAME, GolangTaskContainer.VENDOR_TASK_NAME)
         }
 
         assertOnlySub1Exists()
@@ -186,7 +186,7 @@ dependencies {
         assert stdout.toString().replaceAll(/[0-9a-f]{7}/, '').contains('\\-- localhost/vcs: [sub1]')
 
         newBuild({
-            it.forTasks('dependencies', 'vendor')
+            it.forTasks(GolangTaskContainer.DEPENDENCIES_TASK_NAME, GolangTaskContainer.VENDOR_TASK_NAME)
         }, ['--rerun-tasks'])
 
         assertOnlySub1Exists()

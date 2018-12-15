@@ -19,6 +19,7 @@ package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Before
@@ -77,7 +78,7 @@ golang {
 
     void build(List arguments) {
         newBuild({
-            it.forTasks('resolveBuildDependencies')
+            it.forTasks(GolangTaskContainer.RESOLVE_BUILD_DEPENDENCIES_TASK_NAME)
         }, arguments)
     }
 

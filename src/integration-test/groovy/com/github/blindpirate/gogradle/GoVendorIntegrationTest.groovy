@@ -20,6 +20,7 @@ package com.github.blindpirate.gogradle
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithMockGo
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Before
@@ -67,7 +68,7 @@ dependencies {
     @Test
     void 'vendor task should succeed'() {
         newBuild {
-            it.forTasks('vendor')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
         }
 
         assert new File(resource, 'vendor/github.com/user/a/a1.go').exists()

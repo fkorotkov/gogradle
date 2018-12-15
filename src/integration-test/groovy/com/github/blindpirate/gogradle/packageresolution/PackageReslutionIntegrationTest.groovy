@@ -3,6 +3,7 @@ package com.github.blindpirate.gogradle.packageresolution
 import com.github.blindpirate.gogradle.GogradleRunner
 import com.github.blindpirate.gogradle.core.cache.GlobalCacheMetadata
 import com.github.blindpirate.gogradle.support.*
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.DataExchange
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.tomakehurst.wiremock.junit.WireMockRule
@@ -47,7 +48,7 @@ dependencies {
         setStub()
 
         // when
-        newBuild('dependencies')
+        newBuild(GolangTaskContainer.DEPENDENCIES_TASK_NAME)
 
         // then
         verify(1, getRequestedFor(urlEqualTo('/a?go-get=1')))
@@ -83,7 +84,7 @@ Nothing to see here;
         writeMetadata(true)
 
         // when
-        newBuild('vendor')
+        newBuild(GolangTaskContainer.VENDOR_TASK_NAME)
 
         // then
         verify(0, getRequestedFor(anyUrl()))
@@ -98,7 +99,7 @@ Nothing to see here;
         writeMetadata("http://anotherUrl", false)
 
         // when
-        newBuild('dependencies')
+        newBuild(GolangTaskContainer.DEPENDENCIES_TASK_NAME)
 
         // then
         verify(1, getRequestedFor(urlEqualTo('/a?go-get=1')))

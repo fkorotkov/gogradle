@@ -67,7 +67,7 @@ dependencies {
         }
 
         newBuild {
-            it.forTasks('vendor')
+            it.forTasks(GolangTaskContainer.VENDOR_TASK_NAME)
         }
 
         assert new File(resource, 'vendor/github.com/user/b/b.go').exists()

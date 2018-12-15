@@ -22,6 +22,7 @@ import com.github.blindpirate.gogradle.crossplatform.Os
 import com.github.blindpirate.gogradle.support.AccessWeb
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.OnlyWhen
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.ProcessUtils
 import org.junit.Test
@@ -101,7 +102,7 @@ dependencies {
 
     void firstBuild() {
         newBuild {
-            it.forTasks('clean', 'build', 'check', 'lock')
+            it.forTasks(GolangTaskContainer.CLEAN_TASK_NAME, GolangTaskContainer.BUILD_TASK_NAME, GolangTaskContainer.CHECK_TASK_NAME, GolangTaskContainer.LOCK_TASK_NAME)
         }
     }
 

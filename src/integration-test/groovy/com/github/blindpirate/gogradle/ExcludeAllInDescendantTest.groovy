@@ -19,6 +19,7 @@ package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Before
 import org.junit.Test
@@ -69,7 +70,7 @@ dependencies {
     @Test
     void 'exclusion in ancestor should succeed'() {
         newBuild {
-            it.forTasks('dependencies', 'vendor')
+            it.forTasks(GolangTaskContainer.DEPENDENCIES_TASK_NAME, GolangTaskContainer.VENDOR_TASK_NAME)
         }
 
         assert new File(resource, 'project/vendor/a/a.go').exists()

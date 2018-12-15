@@ -19,6 +19,7 @@ package com.github.blindpirate.gogradle
 
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.gradle.tooling.BuildException
@@ -83,7 +84,7 @@ func main() {
     void 'exception should be thrown if error exists in project root'() {
         writeGoFileWithErrorToProjectRoot()
         try {
-            newBuild('vet')
+            newBuild(GolangTaskContainer.GOVET_TASK_NAME)
         } catch (BuildException e) {
             vetFailed()
         }
@@ -93,7 +94,7 @@ func main() {
     void 'exception should be thrown if error exists in sub package'() {
         writeGoFileWithErrorToSub()
         try {
-            newBuild('vet')
+            newBuild(GolangTaskContainer.GOVET_TASK_NAME)
         } catch (BuildException e) {
             vetFailed()
         }
@@ -107,13 +108,13 @@ vet {
     continueOnFailure = true
 }
 ''')
-        newBuild('vet')
+        newBuild(GolangTaskContainer.GOVET_TASK_NAME)
     }
 
     @Test
     void 'code in vendor should not be vetted'() {
         writeGoFileWithErrorToVendor()
-        newBuild('vet')
+        newBuild(GolangTaskContainer.GOVET_TASK_NAME)
     }
 
     @Override

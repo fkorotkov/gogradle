@@ -22,6 +22,7 @@ import com.github.blindpirate.gogradle.crossplatform.Os
 import com.github.blindpirate.gogradle.support.AccessWeb
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.ProcessUtils
 import com.github.blindpirate.gogradle.util.StringUtils
@@ -121,7 +122,7 @@ func main(){
             }
             """)
 
-        newBuild('build')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME)
 
         assert !buildUpToDate()
 
@@ -134,7 +135,7 @@ func main(){
             new File(resource, ".gogradle/${it}").delete()
         }
 
-        newBuild('build', '-i')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '-i')
 
         assert !stdout.toString().contains(':buildDarwinAmd64 UP-TO-DATE')
         assert !stdout.toString().contains(':buildWindowsAmd64 UP-TO-DATE')
@@ -149,7 +150,7 @@ func main(){
             }
         ''')
 
-        newBuild('build')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME)
 
         assert runExecutable(".gogradle/myPackage-${Os.getHostOs()}-${Arch.getHostArch()}") == 'HelloWorld'
     }
@@ -179,7 +180,7 @@ func main(){
                 go 'build -o ${GOOS}_${GOARCH}_output github.com/my/package/sub'
             }
         ''')
-        newBuild('build', '--info')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--info')
 
         buildActionShouldExecuteOnlyOnce(stdout.toString())
         assert runExecutable("${Os.getHostOs()}_${Arch.getHostArch()}_output") == 'World'
@@ -212,7 +213,7 @@ func main(){
             }
         ''')
         // when
-        newBuild('build')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME)
         // then
         assert new File(resource, 'out/main').exists()
         assert new File(resource, 'out/sub').exists()
@@ -224,7 +225,7 @@ func main(){
 
     void firstBuild() {
         // when
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         // then
         assert !buildUpToDate()
     }
@@ -241,7 +242,7 @@ func main(){
         // when
         firstBuild()
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert !buildUpToDate()
     }
 
@@ -250,7 +251,7 @@ func main(){
         // when
         firstBuild()
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert buildUpToDate()
     }
 
@@ -265,7 +266,7 @@ func main(){
             }
         ''')
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert !buildUpToDate()
     }
 
@@ -280,7 +281,7 @@ func main(){
             }
         ''')
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert !buildUpToDate()
     }
 
@@ -295,7 +296,7 @@ func main(){
             }
         ''')
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert !buildUpToDate()
     }
 
@@ -307,7 +308,7 @@ func main(){
         new File(resource, 'main.go') << '\n\n'
 
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert !buildUpToDate()
     }
 
@@ -320,7 +321,7 @@ func main(){
         IOUtils.deleteQuitely(new File(resource, '.dep/dep.go'))
 
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert !buildUpToDate()
     }
 
@@ -352,7 +353,7 @@ func main(){
         new File(resource, 'main_test.go') << '\n\n'
 
         // then
-        newBuild('build', '--console=plain')
+        newBuild(GolangTaskContainer.BUILD_TASK_NAME, '--console=plain')
         assert buildUpToDate()
     }
 

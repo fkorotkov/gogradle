@@ -21,6 +21,7 @@ import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithIsolatedUserhome
 import com.github.blindpirate.gogradle.support.WithMockGo
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Before
@@ -72,7 +73,7 @@ dependencies {
     @Test
     void 'sub dependencies should start with b'() {
         newBuild {
-            it.forTasks('dependencies')
+            it.forTasks(GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         }
 
         assert stdout.toString().contains('a/b:')

@@ -5,6 +5,7 @@ import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithIsolatedUserhome
 import com.github.blindpirate.gogradle.support.WithMockGo
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.ProcessUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Test
@@ -38,8 +39,8 @@ class RealworldDependencyListIntergrationTest extends IntegrationTestSupport {
         """)
 
         try {
-            newBuild('init')
-            newBuild('dependencies')
+            newBuild(GolangTaskContainer.INIT_TASK_NAME)
+            newBuild(GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         } catch (Throwable e) {
             println(stdout)
             println(stderr)

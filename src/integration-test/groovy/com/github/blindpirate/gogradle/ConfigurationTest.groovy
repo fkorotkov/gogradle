@@ -20,6 +20,7 @@ package com.github.blindpirate.gogradle
 import com.github.blindpirate.gogradle.support.IntegrationTestSupport
 import com.github.blindpirate.gogradle.support.WithMockGo
 import com.github.blindpirate.gogradle.support.WithResource
+import com.github.blindpirate.gogradle.task.GolangTaskContainer
 import com.github.blindpirate.gogradle.util.IOUtils
 import com.github.blindpirate.gogradle.util.StringUtils
 import org.junit.Before
@@ -85,7 +86,7 @@ repositories {
     @Test
     void 'dependencies should be resolved correctly'() {
         newBuild {
-            it.forTasks('dependencies')
+            it.forTasks(GolangTaskContainer.DEPENDENCIES_TASK_NAME)
         }
 
         String actualOutput = stdout.toString().replaceAll('\\r', '')
